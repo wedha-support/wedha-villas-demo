@@ -203,20 +203,22 @@
               </div>
             </div>
 
-            <!-- Guests & Villas -->
+            <!-- Person (Pax Count Only) -->
             <div class="lg:col-span-2">
               <label for="preview-guests" class="block text-[11px] font-bold uppercase tracking-wider text-stone-600 mb-1.5">
-                Guests
+                Person
               </label>
               <div class="relative">
                 <select
                   id="preview-guests"
                   class="w-full bg-white border border-stone-300 focus:border-gold focus:ring-2 focus:ring-gold/20 rounded-lg px-3 py-2.5 text-sm text-stone-800 outline-none transition cursor-pointer"
                 >
-                  <option value="2 Adults, 1 Villa">2 Adults, 1 Villa</option>
-                  <option value="2 Adults, 1 Child">2 Adults, 1 Child</option>
-                  <option value="4 Adults, 2 Villas">4 Adults, 2 Villas</option>
-                  <option value="6 Adults, 3 Villas">6 Adults, 3 Villas</option>
+                  <option value="1">1 Person</option>
+                  <option value="2" selected>2 Persons</option>
+                  <option value="3">3 Persons</option>
+                  <option value="4">4 Persons</option>
+                  <option value="5">5 Persons</option>
+                  <option value="6">6 Persons</option>
                 </select>
               </div>
             </div>
@@ -505,13 +507,13 @@
       const formatISO = (dateObj) => dateObj.toISOString().split('T')[0];
 
       checkinInput.min = formatISO(today);
-      
+
       // Only set default if URL params don't have it (handled in DOMContentLoaded below)
       if (!window.location.search.includes('checkin')) {
-         checkinInput.value = formatISO(tomorrow);
-         checkoutInput.value = formatISO(checkoutDay);
+        checkinInput.value = formatISO(tomorrow);
+        checkoutInput.value = formatISO(checkoutDay);
       }
-      
+
       checkoutInput.min = formatISO(tomorrow);
 
       checkinInput.addEventListener('change', () => {
@@ -540,44 +542,38 @@
       }
     }
 
-    // MAP GUESTS TO TRIPLA ROOMS ARRAY (Mode 1: No Kids / Bed Sharing)
-    function getTriplaRoomsParam(guestsValue) {
-      let roomsParam = '[{"adults":2}]'; // Default safe fallback
-      if (guestsValue.includes('1 Villa')) {
-        roomsParam = '[{"adults":2}]';
-      } else if (guestsValue.includes('2 Villas')) {
-        roomsParam = '[{"adults":2},{"adults":2}]';
-      } else if (guestsValue.includes('3 Villas')) {
-        roomsParam = '[{"adults":2},{"adults":2},{"adults":2}]';
-      }
+    // MAP PERSON COUNT TO TRIPLA ROOMS ARRAY (Mode 1: No Kids / Bed Sharing)
+    function getTriplaRoomsParam(personValue) {
+      const count = parseInt(personValue, 10) || 2;
+      const roomsParam = JSON.stringify([{ adults: count }]);
       return encodeURIComponent(roomsParam);
     }
 
     // MAIN SEARCH BAR SUBMIT HANDLER
     function handleTriplaSearch(event) {
       event.preventDefault();
-      
+
       const checkinRaw = document.getElementById('preview-checkin').value;
       const checkoutRaw = document.getElementById('preview-checkout').value;
-      const guestsRaw = document.getElementById('preview-guests').value;
+      const personRaw = document.getElementById('preview-guests').value;
       const couponRaw = document.getElementById('preview-coupon').value.trim();
 
       // Convert format from HTML5 YYYY-MM-DD to Tripla YYYY/MM/DD
       const checkin = checkinRaw.replace(/-/g, '/');
       const checkout = checkoutRaw.replace(/-/g, '/');
-      
-      // Get JSON mapped room counts
-      const roomsParam = getTriplaRoomsParam(guestsRaw);
+
+      // Get JSON mapped person count
+      const roomsParam = getTriplaRoomsParam(personRaw);
 
       // Build URL with parameters
       let triplaUrl = window.location.pathname + '?tripla_booking_widget_open=search';
-      
+
       if (checkin && checkout) {
         triplaUrl += `&checkin=${checkin}&checkout=${checkout}`;
       }
-      
+
       triplaUrl += `&rooms=${roomsParam}`;
-      
+
       if (couponRaw) {
         triplaUrl += `&coupon_code=${encodeURIComponent(couponRaw)}`;
       }
@@ -591,21 +587,21 @@
       // Pick up values if guest already filled them in the top bar
       const checkinRaw = document.getElementById('preview-checkin').value;
       const checkoutRaw = document.getElementById('preview-checkout').value;
-      const guestsRaw = document.getElementById('preview-guests').value;
+      const personRaw = document.getElementById('preview-guests').value;
       const couponRaw = document.getElementById('preview-coupon').value.trim();
 
       let triplaUrl = window.location.pathname + `?tripla_booking_widget_open=search&room_type_code=${roomCode}`;
-      
+
       if (checkinRaw && checkoutRaw) {
-         triplaUrl += `&checkin=${checkinRaw.replace(/-/g, '/')}&checkout=${checkoutRaw.replace(/-/g, '/')}`;
+        triplaUrl += `&checkin=${checkinRaw.replace(/-/g, '/')}&checkout=${checkoutRaw.replace(/-/g, '/')}`;
       }
-      
+
       if (couponRaw) {
         triplaUrl += `&coupon_code=${encodeURIComponent(couponRaw)}`;
       }
 
-      // Add rooms parameter based on top bar selection, or fallback to default
-      triplaUrl += `&rooms=${getTriplaRoomsParam(guestsRaw)}`;
+      // Add rooms parameter based on Person selection
+      triplaUrl += `&rooms=${getTriplaRoomsParam(personRaw)}`;
 
       // Trigger Tripla
       window.location.href = triplaUrl;
@@ -615,13 +611,27 @@
     window.addEventListener('DOMContentLoaded', () => {
       const params = new URLSearchParams(window.location.search);
       if (params.has('coupon_code')) {
-          document.getElementById('preview-coupon').value = params.get('coupon_code');
+        document.getElementById('preview-coupon').value = params.get('coupon_code');
       }
       if (params.has('checkin')) {
-          document.getElementById('preview-checkin').value = params.get('checkin').replace(/\//g, '-');
+        document.getElementById('preview-checkin').value = params.get('checkin').replace(/\//g, '-');
       }
       if (params.has('checkout')) {
-          document.getElementById('preview-checkout').value = params.get('checkout').replace(/\//g, '-');
+        document.getElementById('preview-checkout').value = params.get('checkout').replace(/\//g, '-');
+      }
+      if (params.has('rooms')) {
+        try {
+          const parsedRooms = JSON.parse(params.get('rooms'));
+          if (Array.isArray(parsedRooms) && parsedRooms.length > 0 && parsedRooms[0].adults) {
+            const totalAdults = parsedRooms.reduce((sum, r) => sum + (parseInt(r.adults, 10) || 0), 0);
+            const guestSelect = document.getElementById('preview-guests');
+            if (guestSelect && totalAdults >= 1 && totalAdults <= 6) {
+              guestSelect.value = String(totalAdults);
+            }
+          }
+        } catch (e) {
+          // Ignore malformed rooms parameter
+        }
       }
     });
   </script>

@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wedha Villa Demo — Luxury Private Pool Villas in Ubud, Bali</title>
+
+  <!-- Google Fonts: Playfair Display & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            serif: ['"Playfair Display"', 'Georgia', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+          },
+          colors: {
+            ivory: '#FAF9F6',
+            sand: '#F3EFEA',
+            charcoal: '#1E293B',
+            gold: {
+              DEFAULT: '#B45309',
+              light: '#D97706',
+              dark: '#92400E',
+            }
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    /* Ensure external booking engine datepickers/popups are never clipped */
+    .widget-safe-zone,
+    .widget-safe-zone * {
+      overflow: visible;
+    }
+
+    @keyframes pulseBorder {
+      0% { box-shadow: 0 0 0 0 rgba(180, 83, 9, 0.55); }
+      70% { box-shadow: 0 0 0 14px rgba(180, 83, 9, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(180, 83, 9, 0); }
+    }
+
+    .widget-highlight {
+      animation: pulseBorder 1.2s ease-out 2;
+    }
+  </style>
+
+  <!-- ===================================================================== -->
+  <!-- [INJECTION ZONE 1 - OPTIONAL] HEAD SCRIPTS FOR BOOKING ENGINE         -->
+  <!-- Paste any vendor CSS or <head> loader script below this line          -->
+  <!-- ===================================================================== -->
+
+  <!-- ===================================================================== -->
+</head>
+<body class="bg-ivory text-charcoal font-sans antialiased selection:bg-gold selection:text-white">
+
+  <!-- Top Announcement Bar -->
+  <div class="bg-charcoal text-stone-200 text-xs py-2 px-4 text-center tracking-wider uppercase">
+    Book Direct &amp; Enjoy Complimentary Daily Breakfast + Airport Pick-Up &bull; <span class="text-amber-400 font-semibold">Best Rate Guaranteed</span>
+  </div>
+
+  <!-- Sticky Navigation Bar (z-40 so booking engine modals stay on top) -->
+  <header class="sticky top-0 z-40 bg-ivory/95 backdrop-blur-md border-b border-stone-200/80 transition-all">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        <!-- Brand Logo -->
+        <a href="#" class="flex items-center gap-3 group">
+          <div class="w-10 h-10 rounded-full bg-gold/10 border border-gold/30 flex items-center justify-center text-gold group-hover:bg-gold group-hover:text-white transition">
+            <i class="fa-solid fa-leaf text-sm"></i>
+          </div>
+          <div>
+            <span class="font-serif text-xl sm:text-2xl font-bold tracking-tight text-charcoal block leading-none">
+              Wedha Villa
+            </span>
+            <span class="text-[10px] uppercase tracking-[0.25em] text-stone-500 font-semibold">
+              Demo Sanctuary &bull; Bali
+            </span>
+          </div>
+        </a>
+
+        <!-- Desktop Navigation -->
+        <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-stone-600">
+          <a href="#villas" class="hover:text-gold transition">Private Villas</a>
+          <a href="#amenities" class="hover:text-gold transition">Amenities</a>
+          <a href="#location" class="hover:text-gold transition">Location</a>
+        </nav>
+
+        <!-- Primary CTA -->
+        <div class="flex items-center gap-3">
+          <button
+            type="button"
+            onclick="scrollToWidget()"
+            class="bg-gold hover:bg-gold-dark text-white text-sm font-semibold px-5 py-2.5 rounded-lg shadow-sm hover:shadow transition cursor-pointer"
+          >
+            Book Direct
+          </button>
+          <!-- Mobile Menu Toggle -->
+          <button
+            type="button"
+            id="mobile-menu-btn"
+            aria-label="Toggle Menu"
+            class="md:hidden p-2 rounded-lg text-stone-700 hover:bg-stone-200/60"
+          >
+            <i class="fa-solid fa-bars text-lg"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Dropdown Menu -->
+    <div id="mobile-menu" class="hidden md:hidden bg-ivory border-b border-stone-200 px-6 py-4 space-y-3 text-sm font-medium text-stone-700">
+      <a href="#villas" class="block py-1.5 hover:text-gold">Private Villas</a>
+      <a href="#amenities" class="block py-1.5 hover:text-gold">Amenities</a>
+      <a href="#location" class="block py-1.5 hover:text-gold">Location</a>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="relative">
+    <!-- Hero Background Image -->
+    <div class="relative h-[540px] sm:h-[600px] w-full overflow-hidden bg-stone-900">
+      <img
+        src="https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=1920&q=80"
+        alt="Wedha Villa Demo Infinity Pool & Tropical Sanctuary"
+        onerror="this.style.display='none'"
+        class="w-full h-full object-cover object-center opacity-85 scale-105 transition-transform duration-1000"
+      />
+      <!-- Dark Gradient Overlay -->
+      <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/75"></div>
+
+      <!-- Hero Copy -->
+      <div class="absolute inset-0 flex flex-col items-center justify-center text-center px-4 pb-24">
+        <span class="inline-block px-3.5 py-1 mb-4 text-xs font-semibold tracking-[0.2em] uppercase text-amber-300 bg-black/40 backdrop-blur-sm border border-amber-300/30 rounded-full">
+          Ubud Tropical Sanctuary
+        </span>
+        <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-white max-w-4xl leading-tight drop-shadow">
+          Where Timeless Balinese Serenity Meets Modern Luxury
+        </h1>
+        <p class="mt-4 text-stone-200 text-base sm:text-lg max-w-2xl font-light">
+          Discover secluded private pool villas overlooking lush emerald valleys at Wedha Villa Demo.
+        </p>
+      </div>
+    </div>
+
+    <!-- Floating Booking Widget Container -->
+    <div id="booking-widget-section" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-24 sm:-mt-28 relative z-30 widget-safe-zone">
+      <div
+        id="booking-widget-card"
+        class="bg-white rounded-2xl shadow-2xl border border-stone-200/90 p-5 sm:p-7 widget-safe-zone transition-all"
+      >
+        <div class="flex flex-wrap items-center justify-between gap-2 pb-4 mb-4 border-b border-stone-100">
+          <div class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-gold">
+            <i class="fa-solid fa-calendar-check"></i>
+            <span>Online Reservation &amp; Instant Confirmation</span>
+          </div>
+          <span class="text-xs text-stone-400">
+            Official Direct Booking Engine
+          </span>
+        </div>
+
+        <!-- ===================================================================== -->
+        <!-- [INJECTION ZONE 2 - MAIN] PASTE YOUR BOOKING ENGINE WIDGET BELOW      -->
+        <!-- Replace the placeholder block inside #booking-engine-slot with your   -->
+        <!-- <script> or <iframe> widget snippet.                                  -->
+        <!-- ===================================================================== -->
+        <div id="booking-engine-slot" class="min-h-[96px] w-full widget-safe-zone">
+
+          <!-- START: STANDALONE PREVIEW UI (Replace once live widget snippet is pasted) -->
+          <div class="rounded-xl border-2 border-dashed border-amber-400/70 bg-amber-50/40 p-4 sm:p-5">
+            <form onsubmit="handlePreviewSearch(event)" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-3.5 items-end">
+              <!-- Check-In Date -->
+              <div class="lg:col-span-3">
+                <label for="preview-checkin" class="block text-[11px] font-bold uppercase tracking-wider text-stone-600 mb-1.5">
+                  Check-In Date
+                </label>
+                <div class="relative">
+                  <input
+                    type="date"
+                    id="preview-checkin"
+                    required
+                    class="w-full bg-white border border-stone-300 focus:border-gold focus:ring-2 focus:ring-gold/20 rounded-lg px-3.5 py-2.5 text-sm text-stone-800 outline-none transition"
+                  />
+                </div>
+              </div>
+
+              <!-- Check-Out Date -->
+              <div class="lg:col-span-3">
+                <label for="preview-checkout" class="block text-[11px] font-bold uppercase tracking-wider text-stone-600 mb-1.5">
+                  Check-Out Date
+                </label>
+                <div class="relative">
+                  <input
+                    type="date"
+                    id="preview-checkout"
+                    required
+                    class="w-full bg-white border border-stone-300 focus:border-gold focus:ring-2 focus:ring-gold/20 rounded-lg px-3.5 py-2.5 text-sm text-stone-800 outline-none transition"
+                  />
+                </div>
+              </div>
+
+              <!-- Guests & Villas -->
+              <div class="lg:col-span-2">
+                <label for="preview-guests" class="block text-[11px] font-bold uppercase tracking-wider text-stone-600 mb-1.5">
+                  Guests
+                </label>
+                <div class="relative">
+                  <select
+                    id="preview-guests"
+                    class="w-full bg-white border border-stone-300 focus:border-gold focus:ring-2 focus:ring-gold/20 rounded-lg px-3 py-2.5 text-sm text-stone-800 outline-none transition cursor-pointer"
+                  >
+                    <option value="2 Adults, 1 Villa">2 Adults, 1 Villa</option>
+                    <option value="2 Adults, 1 Child">2 Adults, 1 Child</option>
+                    <option value="4 Adults, 2 Villas">4 Adults, 2 Villas</option>
+                    <option value="6 Adults, 3 Villas">6 Adults, 3 Villas</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Coupon Code Field -->
+              <div class="lg:col-span-2">
+                <label for="preview-coupon" class="block text-[11px] font-bold uppercase tracking-wider text-stone-600 mb-1.5">
+                  Coupon Code
+                </label>
+                <div class="relative">
+                  <input
+                    type="text"
+                    id="preview-coupon"
+                    placeholder="Optional code"
+                    autocomplete="off"
+                    class="w-full bg-white border border-stone-300 focus:border-gold focus:ring-2 focus:ring-gold/20 rounded-lg pl-3.5 pr-9 py-2.5 text-sm uppercase tracking-wider text-stone-800 placeholder:normal-case placeholder:tracking-normal placeholder:text-stone-400 outline-none transition"
+                  />
+                  <i class="fa-solid fa-ticket text-gold/80 text-xs absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+                </div>
+              </div>
+
+              <!-- Submit CTA -->
+              <div class="sm:col-span-2 lg:col-span-2">
+                <button
+                  type="submit"
+                  class="w-full bg-gold hover:bg-gold-dark text-white font-semibold py-2.5 px-4 rounded-lg shadow-sm hover:shadow transition flex items-center justify-center gap-2 cursor-pointer h-[42px]"
+                >
+                  <span>Check Rates</span>
+                  <i class="fa-solid fa-arrow-right text-xs"></i>
+                </button>
+              </div>
+            </form>
+
+            <!-- Interactive Preview Feedback Banner (Hidden until Check Rates is clicked) -->
+            <div id="preview-feedback" class="hidden mt-4 rounded-lg bg-white border border-amber-300 p-3.5 text-xs text-stone-700 flex flex-col sm:flex-row sm:items-center justify-between gap-2 shadow-sm">
+              <div id="preview-feedback-text"></div>
+              <button
+                type="button"
+                onclick="document.getElementById('preview-feedback').classList.add('hidden')"
+                class="text-stone-400 hover:text-stone-700 font-semibold self-end sm:self-center cursor-pointer"
+              >
+                Dismiss
+              </button>
+            </div>
+
+            <p class="mt-3 text-center text-xs text-amber-800 font-medium">
+              <i class="fa-solid fa-code mr-1"></i>
+              Standalone Preview Mode: Replace the placeholder inside <code class="bg-amber-100 px-1.5 py-0.5 rounded">#booking-engine-slot</code> once your live widget code is ready.
+            </p>
+          </div>
+          <!-- END: STANDALONE PREVIEW UI -->
+
+        </div>
+        <!-- ===================================================================== -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Private Villas Showcase Section -->
+  <section id="villas" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-24">
+    <div class="text-center max-w-2xl mx-auto mb-14">
+      <span class="text-xs font-bold uppercase tracking-[0.2em] text-gold">Accommodations</span>
+      <h2 class="font-serif text-3xl sm:text-4xl font-bold text-charcoal mt-2">
+        Signature Private Pool Villas
+      </h2>
+      <p class="text-stone-600 mt-3 text-sm sm:text-base">
+        Each sanctuary is thoughtfully crafted with natural teakwood, handcrafted stone, and panoramic jungle vistas.
+      </p>
+    </div>
+
+    <!-- 3-Column Villa Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <!-- Villa Card 1 -->
+      <article class="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl border border-stone-200/70 transition flex flex-col">
+        <div class="relative h-64 bg-stone-200 overflow-hidden">
+          <img
+            src="https://images.unsplash.com/photo-1540541338287-41700207dee6?auto=format&fit=crop&w=900&q=80"
+            alt="One-Bedroom Garden Pool Villa"
+            onerror="this.style.display='none'"
+            class="w-full h-full object-cover hover:scale-105 transition duration-500"
+          />
+          <span class="absolute top-4 left-4 bg-white/95 backdrop-blur-sm text-charcoal text-xs font-semibold px-3 py-1 rounded-full shadow-sm">
+            120 sqm &bull; 2 Guests
+          </span>
+        </div>
+        <div class="p-6 flex-1 flex flex-col justify-between">
+          <div>
+            <h3 class="font-serif text-xl font-bold text-charcoal">One-Bedroom Garden Pool Villa</h3>
+            <p class="text-stone-600 text-sm mt-2 leading-relaxed">
+              Surrounded by fragrant tropical gardens with a private plunge pool, outdoor rain shower, and king-size canopy bed.
+            </p>
+            <div class="flex flex-wrap gap-2 mt-4 text-xs text-stone-500">
+              <span class="bg-sand px-2.5 py-1 rounded-md"><i class="fa-solid fa-water-ladder text-gold mr-1"></i>Private Pool</span>
+              <span class="bg-sand px-2.5 py-1 rounded-md"><i class="fa-solid fa-mug-hot text-gold mr-1"></i>Breakfast Included</span>
+            </div>
+          </div>
+          <div class="mt-6 pt-4 border-t border-stone-100 flex items-center justify-between">
+            <div>
+              <span class="text-xs text-stone-400 block">Starting from</span>
+              <span class="text-lg font-bold text-charcoal">$280</span>
+              <span class="text-xs text-stone-500">/ night</span>
+            </div>
+            <button
+              type="button"
+              onclick="scrollToWidget()"
+              class="text-sm font-semibold text-gold hover:text-gold-dark flex items-center gap-1.5 cursor-pointer"
+            >
+              <span>Select Dates</span>
+              <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Villa Card 2 -->
+      <article class="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl border border-stone-200/70 transition flex flex-col">
+        <div class="relative h-64 bg-stone-200 overflow-hidden">
+          <img
+            src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=900&q=80"
+            alt="Two-Bedroom Valley View Villa"
+            onerror="this.style.display='none'"
+            class="w-full h-full object-cover hover:scale-105 transition duration-500"
+          />
+          <span class="absolute top-4 left-4 bg-gold text-white text-xs font-semibold px-3 py-1 rounded-full shadow-sm">
+            Most Popular &bull; 4 Guests
+          </span>
+        </div>
+        <div class="p-6 flex-1 flex flex-col justify-between">
+          <div>
+            <h3 class="font-serif text-xl font-bold text-charcoal">Two-Bedroom Valley View Villa</h3>
+            <p class="text-stone-600 text-sm mt-2 leading-relaxed">
+              Expansive dual-suite layout featuring an infinity-edge pool hovering above the river valley and private dining pavilion.
+            </p>
+            <div class="flex flex-wrap gap-2 mt-4 text-xs text-stone-500">
+              <span class="bg-sand px-2.5 py-1 rounded-md"><i class="fa-solid fa-mountain-sun text-gold mr-1"></i>Valley View</span>
+              <span class="bg-sand px-2.5 py-1 rounded-md"><i class="fa-solid fa-bed text-gold mr-1"></i>2 King Suites</span>
+            </div>
+          </div>
+          <div class="mt-6 pt-4 border-t border-stone-100 flex items-center justify-between">
+            <div>
+              <span class="text-xs text-stone-400 block">Starting from</span>
+              <span class="text-lg font-bold text-charcoal">$450</span>
+              <span class="text-xs text-stone-500">/ night</span>
+            </div>
+            <button
+              type="button"
+              onclick="scrollToWidget()"
+              class="text-sm font-semibold text-gold hover:text-gold-dark flex items-center gap-1.5 cursor-pointer"
+            >
+              <span>Select Dates</span>
+              <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+            </button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Villa Card 3 -->
+      <article class="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl border border-stone-200/70 transition flex flex-col">
+        <div class="relative h-64 bg-stone-200 overflow-hidden">
+          <img
+            src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=900&q=80"
+            alt="Royal Cliff Infinity Residence"
+            onerror="this.style.display='none'"
+            class="w-full h-full object-cover hover:scale-105 transition duration-500"
+          />
+          <span class="absolute top-4 left-4 bg-white/95 backdrop-blur-sm text-charcoal text-xs font-semibold px-3 py-1 rounded-full shadow-sm">
+            340 sqm &bull; 6 Guests
+          </span>
+        </div>
+        <div class="p-6 flex-1 flex flex-col justify-between">
+          <div>
+            <h3 class="font-serif text-xl font-bold text-charcoal">Royal Cliff Infinity Residence</h3>
+            <p class="text-stone-600 text-sm mt-2 leading-relaxed">
+              Our flagship three-bedroom estate with a 15-meter heated infinity pool, private spa room, and 24-hour dedicated butler.
+            </p>
+            <div class="flex flex-wrap gap-2 mt-4 text-xs text-stone-500">
+              <span class="bg-sand px-2.5 py-1 rounded-md"><i class="fa-solid fa-bell-concierge text-gold mr-1"></i>24/7 Butler</span>
+              <span class="bg-sand px-2.5 py-1 rounded-md"><i class="fa-solid fa-spa text-gold mr-1"></i>Private Spa</span>
+            </div>
+          </div>
+          <div class="mt-6 pt-4 border-t border-stone-100 flex items-center justify-between">
+            <div>
+              <span class="text-xs text-stone-400 block">Starting from</span>
+              <span class="text-lg font-bold text-charcoal">$790</span>
+              <span class="text-xs text-stone-500">/ night</span>
+            </div>
+            <button
+              type="button"
+              onclick="scrollToWidget()"
+              class="text-sm font-semibold text-gold hover:text-gold-dark flex items-center gap-1.5 cursor-pointer"
+            >
+              <span>Select Dates</span>
+              <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+            </button>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- Resort Amenities Section -->
+  <section id="amenities" class="bg-sand border-y border-stone-200/80 py-16 sm:py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div class="bg-ivory p-6 rounded-2xl border border-stone-200/70">
+          <div class="w-11 h-11 rounded-xl bg-gold/10 text-gold flex items-center justify-center mb-4">
+            <i class="fa-solid fa-water-ladder text-lg"></i>
+          </div>
+          <h3 class="font-serif text-lg font-bold text-charcoal">Heated Infinity Pools</h3>
+          <p class="text-stone-600 text-sm mt-1.5">Every villa features its own temperature-controlled private pool.</p>
+        </div>
+
+        <div class="bg-ivory p-6 rounded-2xl border border-stone-200/70">
+          <div class="w-11 h-11 rounded-xl bg-gold/10 text-gold flex items-center justify-center mb-4">
+            <i class="fa-solid fa-car-side text-lg"></i>
+          </div>
+          <h3 class="font-serif text-lg font-bold text-charcoal">Airport Chauffeur</h3>
+          <p class="text-stone-600 text-sm mt-1.5">Complimentary private SUV transfer from Ngurah Rai Airport for direct bookings.</p>
+        </div>
+
+        <div class="bg-ivory p-6 rounded-2xl border border-stone-200/70">
+          <div class="w-11 h-11 rounded-xl bg-gold/10 text-gold flex items-center justify-center mb-4">
+            <i class="fa-solid fa-wifi text-lg"></i>
+          </div>
+          <h3 class="font-serif text-lg font-bold text-charcoal">Dedicated Fiber Wi-Fi</h3>
+          <p class="text-stone-600 text-sm mt-1.5">High-speed 200 Mbps mesh connectivity across all villas and garden decks.</p>
+        </div>
+
+        <div class="bg-ivory p-6 rounded-2xl border border-stone-200/70">
+          <div class="w-11 h-11 rounded-xl bg-gold/10 text-gold flex items-center justify-center mb-4">
+            <i class="fa-solid fa-utensils text-lg"></i>
+          </div>
+          <h3 class="font-serif text-lg font-bold text-charcoal">Floating Breakfast</h3>
+          <p class="text-stone-600 text-sm mt-1.5">Artisanal morning dining served directly in your private villa pool.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Location & Footer -->
+  <footer id="location" class="bg-charcoal text-stone-300 pt-16 pb-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-10 pb-12 border-b border-stone-700/80">
+        <div>
+          <span class="font-serif text-2xl font-bold text-white block">Wedha Villa Demo</span>
+          <p class="text-sm text-stone-400 mt-3 leading-relaxed">
+            A boutique luxury villa testbed environment designed for seamless direct booking engine integration and reservation testing.
+          </p>
+        </div>
+
+        <div>
+          <h4 class="text-xs font-bold uppercase tracking-widest text-amber-400 mb-3">Sanctuary Address</h4>
+          <p class="text-sm text-stone-300 leading-relaxed">
+            Jalan Raya Sanggingan No. 88, Kedewatan<br />
+            Ubud, Gianyar, Bali 80571 — Indonesia
+          </p>
+        </div>
+
+        <div>
+          <h4 class="text-xs font-bold uppercase tracking-widest text-amber-400 mb-3">Direct Reservations</h4>
+          <ul class="space-y-2 text-sm text-stone-300">
+            <li><i class="fa-solid fa-phone text-amber-400 mr-2"></i>+62 361 555 0199</li>
+            <li><i class="fa-solid fa-envelope text-amber-400 mr-2"></i>reservations@wedhavillademo.com</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-stone-500 gap-4">
+        <p>&copy; 2026 Wedha Villa Demo. All Rights Reserved. (Staging &amp; Widget Test Environment)</p>
+        <div class="flex items-center gap-5">
+          <a href="#" class="hover:text-stone-300 transition">Privacy Policy</a>
+          <a href="#" class="hover:text-stone-300 transition">Terms of Stay</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Interactive Page Scripts -->
+  <script>
+    // Mobile menu toggle
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    if (mobileMenuBtn && mobileMenu) {
+      mobileMenuBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+      });
+    }
+
+    // Initialize default Check-In (tomorrow) and Check-Out (+3 days) for standalone preview
+    (function initPreviewDates() {
+      const checkinInput = document.getElementById('preview-checkin');
+      const checkoutInput = document.getElementById('preview-checkout');
+      if (!checkinInput || !checkoutInput) return;
+
+      const today = new Date();
+      const tomorrow = new Date(today);
+      tomorrow.setDate(today.getDate() + 1);
+      const checkoutDay = new Date(today);
+      checkoutDay.setDate(today.getDate() + 3);
+
+      const formatISO = (dateObj) => dateObj.toISOString().split('T')[0];
+
+      checkinInput.min = formatISO(today);
+      checkinInput.value = formatISO(tomorrow);
+      checkoutInput.min = formatISO(tomorrow);
+      checkoutInput.value = formatISO(checkoutDay);
+
+      checkinInput.addEventListener('change', () => {
+        if (checkinInput.value) {
+          checkoutInput.min = checkinInput.value;
+          if (checkoutInput.value <= checkinInput.value) {
+            const nextDay = new Date(checkinInput.value);
+            nextDay.setDate(nextDay.getDate() + 1);
+            checkoutInput.value = formatISO(nextDay);
+          }
+        }
+      });
+    })();
+
+    // Smooth scroll to booking widget + highlight pulse
+    function scrollToWidget() {
+      const widgetSection = document.getElementById('booking-widget-section');
+      const widgetCard = document.getElementById('booking-widget-card');
+      if (widgetSection) {
+        widgetSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+      if (widgetCard) {
+        widgetCard.classList.remove('widget-highlight');
+        void widgetCard.offsetWidth; // trigger reflow
+        widgetCard.classList.add('widget-highlight');
+      }
+    }
+
+    // Interactive handler for standalone preview search + coupon code
+    function handlePreviewSearch(event) {
+      event.preventDefault();
+      const checkin = document.getElementById('preview-checkin')?.value || '';
+      const checkout = document.getElementById('preview-checkout')?.value || '';
+      const guests = document.getElementById('preview-guests')?.value || '';
+      const rawCoupon = document.getElementById('preview-coupon')?.value.trim().toUpperCase() || '';
+
+      const feedbackBox = document.getElementById('preview-feedback');
+      const feedbackText = document.getElementById('preview-feedback-text');
+      if (!feedbackBox || !feedbackText) return;
+
+      const couponBadge = rawCoupon
+        ? `<span class="inline-flex items-center gap-1 bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded ml-1"><i class="fa-solid fa-tag"></i> ${rawCoupon}</span>`
+        : `<span class="text-stone-400 italic ml-1">None applied</span>`;
+
+      feedbackText.innerHTML = `
+        <span class="font-semibold text-charcoal"><i class="fa-solid fa-circle-check text-gold mr-1"></i>Preview Search Payload Ready:</span>
+        <span>${checkin} to ${checkout} &bull; ${guests} &bull; Coupon: ${couponBadge}</span>
+      `;
+      feedbackBox.classList.remove('hidden');
+    }
+  </script>
+
+  <!-- ===================================================================== -->
+  <!-- [INJECTION ZONE 3 - OPTIONAL] FOOTER SCRIPTS FOR BOOKING ENGINE       -->
+  <!-- Paste any vendor initialization <script> tags below this line         -->
+  <!-- ===================================================================== -->
+
+  <!-- ===================================================================== -->
+</body>
+</html>

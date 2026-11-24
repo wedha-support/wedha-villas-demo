@@ -42,7 +42,7 @@
     /* Ensure external booking engine datepickers/popups are never clipped */
     .widget-safe-zone,
     .widget-safe-zone * {
-      overflow: visible;
+      overflow: visible !important;
     }
 
     @keyframes pulseBorder {
@@ -57,10 +57,9 @@
   </style>
 
   <!-- ===================================================================== -->
-  <!-- [INJECTION ZONE 1 - OPTIONAL] HEAD SCRIPTS FOR BOOKING ENGINE         -->
-  <!-- Paste any vendor CSS or <head> loader script below this line          -->
+  <!-- [INJECTION ZONE 1 - MAIN] TRIPLA BOOKING ENGINE CORE SDK              -->
   <!-- ===================================================================== -->
-
+  <script async src="https://tripla.jp/sdk/javascript/tripla.min.js" data-triplabot-code="0196ee07-8a09-77db-8b97-f6933e8c5980"></script>
   <!-- ===================================================================== -->
 </head>
 <body class="bg-ivory text-charcoal font-sans antialiased selection:bg-gold selection:text-white">
@@ -165,116 +164,91 @@
             <span>Online Reservation &amp; Instant Confirmation</span>
           </div>
           <span class="text-xs text-stone-400">
-            Official Direct Booking Engine
+            Powered by Tripla Booking Engine
           </span>
         </div>
 
         <!-- ===================================================================== -->
-        <!-- [INJECTION ZONE 2 - MAIN] PASTE YOUR BOOKING ENGINE WIDGET BELOW      -->
-        <!-- Replace the placeholder block inside #booking-engine-slot with your   -->
-        <!-- <script> or <iframe> widget snippet.                                  -->
+        <!-- TRIPLA CUSTOM SEARCH BAR INJECTION ZONE                               -->
         <!-- ===================================================================== -->
-        <div id="booking-engine-slot" class="min-h-[96px] w-full widget-safe-zone">
-
-          <!-- START: STANDALONE PREVIEW UI (Replace once live widget snippet is pasted) -->
-          <div class="rounded-xl border-2 border-dashed border-amber-400/70 bg-amber-50/40 p-4 sm:p-5">
-            <form onsubmit="handlePreviewSearch(event)" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-3.5 items-end">
-              <!-- Check-In Date -->
-              <div class="lg:col-span-3">
-                <label for="preview-checkin" class="block text-[11px] font-bold uppercase tracking-wider text-stone-600 mb-1.5">
-                  Check-In Date
-                </label>
-                <div class="relative">
-                  <input
-                    type="date"
-                    id="preview-checkin"
-                    required
-                    class="w-full bg-white border border-stone-300 focus:border-gold focus:ring-2 focus:ring-gold/20 rounded-lg px-3.5 py-2.5 text-sm text-stone-800 outline-none transition"
-                  />
-                </div>
+        <div id="booking-engine-slot" class="w-full widget-safe-zone">
+          <form onsubmit="handleTriplaSearch(event)" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-3.5 items-end">
+            <!-- Check-In Date -->
+            <div class="lg:col-span-3">
+              <label for="preview-checkin" class="block text-[11px] font-bold uppercase tracking-wider text-stone-600 mb-1.5">
+                Check-In Date
+              </label>
+              <div class="relative">
+                <input
+                  type="date"
+                  id="preview-checkin"
+                  required
+                  class="w-full bg-white border border-stone-300 focus:border-gold focus:ring-2 focus:ring-gold/20 rounded-lg px-3.5 py-2.5 text-sm text-stone-800 outline-none transition"
+                />
               </div>
-
-              <!-- Check-Out Date -->
-              <div class="lg:col-span-3">
-                <label for="preview-checkout" class="block text-[11px] font-bold uppercase tracking-wider text-stone-600 mb-1.5">
-                  Check-Out Date
-                </label>
-                <div class="relative">
-                  <input
-                    type="date"
-                    id="preview-checkout"
-                    required
-                    class="w-full bg-white border border-stone-300 focus:border-gold focus:ring-2 focus:ring-gold/20 rounded-lg px-3.5 py-2.5 text-sm text-stone-800 outline-none transition"
-                  />
-                </div>
-              </div>
-
-              <!-- Guests & Villas -->
-              <div class="lg:col-span-2">
-                <label for="preview-guests" class="block text-[11px] font-bold uppercase tracking-wider text-stone-600 mb-1.5">
-                  Guests
-                </label>
-                <div class="relative">
-                  <select
-                    id="preview-guests"
-                    class="w-full bg-white border border-stone-300 focus:border-gold focus:ring-2 focus:ring-gold/20 rounded-lg px-3 py-2.5 text-sm text-stone-800 outline-none transition cursor-pointer"
-                  >
-                    <option value="2 Adults, 1 Villa">2 Adults, 1 Villa</option>
-                    <option value="2 Adults, 1 Child">2 Adults, 1 Child</option>
-                    <option value="4 Adults, 2 Villas">4 Adults, 2 Villas</option>
-                    <option value="6 Adults, 3 Villas">6 Adults, 3 Villas</option>
-                  </select>
-                </div>
-              </div>
-
-              <!-- Coupon Code Field -->
-              <div class="lg:col-span-2">
-                <label for="preview-coupon" class="block text-[11px] font-bold uppercase tracking-wider text-stone-600 mb-1.5">
-                  Coupon Code
-                </label>
-                <div class="relative">
-                  <input
-                    type="text"
-                    id="preview-coupon"
-                    placeholder="Optional code"
-                    autocomplete="off"
-                    class="w-full bg-white border border-stone-300 focus:border-gold focus:ring-2 focus:ring-gold/20 rounded-lg pl-3.5 pr-9 py-2.5 text-sm uppercase tracking-wider text-stone-800 placeholder:normal-case placeholder:tracking-normal placeholder:text-stone-400 outline-none transition"
-                  />
-                  <i class="fa-solid fa-ticket text-gold/80 text-xs absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"></i>
-                </div>
-              </div>
-
-              <!-- Submit CTA -->
-              <div class="sm:col-span-2 lg:col-span-2">
-                <button
-                  type="submit"
-                  class="w-full bg-gold hover:bg-gold-dark text-white font-semibold py-2.5 px-4 rounded-lg shadow-sm hover:shadow transition flex items-center justify-center gap-2 cursor-pointer h-[42px]"
-                >
-                  <span>Check Rates</span>
-                  <i class="fa-solid fa-arrow-right text-xs"></i>
-                </button>
-              </div>
-            </form>
-
-            <!-- Interactive Preview Feedback Banner (Hidden until Check Rates is clicked) -->
-            <div id="preview-feedback" class="hidden mt-4 rounded-lg bg-white border border-amber-300 p-3.5 text-xs text-stone-700 flex flex-col sm:flex-row sm:items-center justify-between gap-2 shadow-sm">
-              <div id="preview-feedback-text"></div>
-              <button
-                type="button"
-                onclick="document.getElementById('preview-feedback').classList.add('hidden')"
-                class="text-stone-400 hover:text-stone-700 font-semibold self-end sm:self-center cursor-pointer"
-              >
-                Dismiss
-              </button>
             </div>
 
-            <p class="mt-3 text-center text-xs text-amber-800 font-medium">
-              <i class="fa-solid fa-code mr-1"></i>
-              Standalone Preview Mode: Replace the placeholder inside <code class="bg-amber-100 px-1.5 py-0.5 rounded">#booking-engine-slot</code> once your live widget code is ready.
-            </p>
-          </div>
-          <!-- END: STANDALONE PREVIEW UI -->
+            <!-- Check-Out Date -->
+            <div class="lg:col-span-3">
+              <label for="preview-checkout" class="block text-[11px] font-bold uppercase tracking-wider text-stone-600 mb-1.5">
+                Check-Out Date
+              </label>
+              <div class="relative">
+                <input
+                  type="date"
+                  id="preview-checkout"
+                  required
+                  class="w-full bg-white border border-stone-300 focus:border-gold focus:ring-2 focus:ring-gold/20 rounded-lg px-3.5 py-2.5 text-sm text-stone-800 outline-none transition"
+                />
+              </div>
+            </div>
 
+            <!-- Guests & Villas -->
+            <div class="lg:col-span-2">
+              <label for="preview-guests" class="block text-[11px] font-bold uppercase tracking-wider text-stone-600 mb-1.5">
+                Guests
+              </label>
+              <div class="relative">
+                <select
+                  id="preview-guests"
+                  class="w-full bg-white border border-stone-300 focus:border-gold focus:ring-2 focus:ring-gold/20 rounded-lg px-3 py-2.5 text-sm text-stone-800 outline-none transition cursor-pointer"
+                >
+                  <option value="2 Adults, 1 Villa">2 Adults, 1 Villa</option>
+                  <option value="2 Adults, 1 Child">2 Adults, 1 Child</option>
+                  <option value="4 Adults, 2 Villas">4 Adults, 2 Villas</option>
+                  <option value="6 Adults, 3 Villas">6 Adults, 3 Villas</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Coupon Code Field -->
+            <div class="lg:col-span-2">
+              <label for="preview-coupon" class="block text-[11px] font-bold uppercase tracking-wider text-stone-600 mb-1.5">
+                Coupon Code
+              </label>
+              <div class="relative">
+                <input
+                  type="text"
+                  id="preview-coupon"
+                  placeholder="Optional code"
+                  autocomplete="off"
+                  class="w-full bg-white border border-stone-300 focus:border-gold focus:ring-2 focus:ring-gold/20 rounded-lg pl-3.5 pr-9 py-2.5 text-sm uppercase tracking-wider text-stone-800 placeholder:normal-case placeholder:tracking-normal placeholder:text-stone-400 outline-none transition"
+                />
+                <i class="fa-solid fa-ticket text-gold/80 text-xs absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+              </div>
+            </div>
+
+            <!-- Submit CTA -->
+            <div class="sm:col-span-2 lg:col-span-2">
+              <button
+                type="submit"
+                class="w-full bg-gold hover:bg-gold-dark text-white font-semibold py-2.5 px-4 rounded-lg shadow-sm hover:shadow transition flex items-center justify-center gap-2 cursor-pointer h-[42px]"
+              >
+                <span>Check Rates</span>
+                <i class="fa-solid fa-arrow-right text-xs"></i>
+              </button>
+            </div>
+          </form>
         </div>
         <!-- ===================================================================== -->
       </div>
@@ -325,9 +299,10 @@
               <span class="text-lg font-bold text-charcoal">$280</span>
               <span class="text-xs text-stone-500">/ night</span>
             </div>
+            <!-- Tripla Room Deep Link: 1BRGPV -->
             <button
               type="button"
-              onclick="scrollToWidget()"
+              onclick="openTriplaRoom('1BRGPV')"
               class="text-sm font-semibold text-gold hover:text-gold-dark flex items-center gap-1.5 cursor-pointer"
             >
               <span>Select Dates</span>
@@ -367,9 +342,10 @@
               <span class="text-lg font-bold text-charcoal">$450</span>
               <span class="text-xs text-stone-500">/ night</span>
             </div>
+            <!-- Tripla Room Deep Link: 2BRVVV -->
             <button
               type="button"
-              onclick="scrollToWidget()"
+              onclick="openTriplaRoom('2BRVVV')"
               class="text-sm font-semibold text-gold hover:text-gold-dark flex items-center gap-1.5 cursor-pointer"
             >
               <span>Select Dates</span>
@@ -409,9 +385,10 @@
               <span class="text-lg font-bold text-charcoal">$790</span>
               <span class="text-xs text-stone-500">/ night</span>
             </div>
+            <!-- Tripla Room Deep Link: RCIR -->
             <button
               type="button"
-              onclick="scrollToWidget()"
+              onclick="openTriplaRoom('RCIR')"
               class="text-sm font-semibold text-gold hover:text-gold-dark flex items-center gap-1.5 cursor-pointer"
             >
               <span>Select Dates</span>
@@ -500,7 +477,9 @@
     </div>
   </footer>
 
-  <!-- Interactive Page Scripts -->
+  <!-- ===================================================================== -->
+  <!-- JAVASCRIPT: UI INTERACTION & TRIPLA ENGINE INTEGRATION LOGIC          -->
+  <!-- ===================================================================== -->
   <script>
     // Mobile menu toggle
     const mobileMenuBtn = document.getElementById('mobile-menu-btn');
@@ -511,7 +490,7 @@
       });
     }
 
-    // Initialize default Check-In (tomorrow) and Check-Out (+3 days) for standalone preview
+    // Initialize Dates (Tomorrow & +3 Days)
     (function initPreviewDates() {
       const checkinInput = document.getElementById('preview-checkin');
       const checkoutInput = document.getElementById('preview-checkout');
@@ -526,9 +505,14 @@
       const formatISO = (dateObj) => dateObj.toISOString().split('T')[0];
 
       checkinInput.min = formatISO(today);
-      checkinInput.value = formatISO(tomorrow);
+      
+      // Only set default if URL params don't have it (handled in DOMContentLoaded below)
+      if (!window.location.search.includes('checkin')) {
+         checkinInput.value = formatISO(tomorrow);
+         checkoutInput.value = formatISO(checkoutDay);
+      }
+      
       checkoutInput.min = formatISO(tomorrow);
-      checkoutInput.value = formatISO(checkoutDay);
 
       checkinInput.addEventListener('change', () => {
         if (checkinInput.value) {
@@ -542,7 +526,7 @@
       });
     })();
 
-    // Smooth scroll to booking widget + highlight pulse
+    // Auto-scroll to widget
     function scrollToWidget() {
       const widgetSection = document.getElementById('booking-widget-section');
       const widgetCard = document.getElementById('booking-widget-card');
@@ -556,35 +540,90 @@
       }
     }
 
-    // Interactive handler for standalone preview search + coupon code
-    function handlePreviewSearch(event) {
-      event.preventDefault();
-      const checkin = document.getElementById('preview-checkin')?.value || '';
-      const checkout = document.getElementById('preview-checkout')?.value || '';
-      const guests = document.getElementById('preview-guests')?.value || '';
-      const rawCoupon = document.getElementById('preview-coupon')?.value.trim().toUpperCase() || '';
-
-      const feedbackBox = document.getElementById('preview-feedback');
-      const feedbackText = document.getElementById('preview-feedback-text');
-      if (!feedbackBox || !feedbackText) return;
-
-      const couponBadge = rawCoupon
-        ? `<span class="inline-flex items-center gap-1 bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded ml-1"><i class="fa-solid fa-tag"></i> ${rawCoupon}</span>`
-        : `<span class="text-stone-400 italic ml-1">None applied</span>`;
-
-      feedbackText.innerHTML = `
-        <span class="font-semibold text-charcoal"><i class="fa-solid fa-circle-check text-gold mr-1"></i>Preview Search Payload Ready:</span>
-        <span>${checkin} to ${checkout} &bull; ${guests} &bull; Coupon: ${couponBadge}</span>
-      `;
-      feedbackBox.classList.remove('hidden');
+    // MAP GUESTS TO TRIPLA ROOMS ARRAY (Mode 1: No Kids / Bed Sharing)
+    function getTriplaRoomsParam(guestsValue) {
+      let roomsParam = '[{"adults":2}]'; // Default safe fallback
+      if (guestsValue.includes('1 Villa')) {
+        roomsParam = '[{"adults":2}]';
+      } else if (guestsValue.includes('2 Villas')) {
+        roomsParam = '[{"adults":2},{"adults":2}]';
+      } else if (guestsValue.includes('3 Villas')) {
+        roomsParam = '[{"adults":2},{"adults":2},{"adults":2}]';
+      }
+      return encodeURIComponent(roomsParam);
     }
+
+    // MAIN SEARCH BAR SUBMIT HANDLER
+    function handleTriplaSearch(event) {
+      event.preventDefault();
+      
+      const checkinRaw = document.getElementById('preview-checkin').value;
+      const checkoutRaw = document.getElementById('preview-checkout').value;
+      const guestsRaw = document.getElementById('preview-guests').value;
+      const couponRaw = document.getElementById('preview-coupon').value.trim();
+
+      // Convert format from HTML5 YYYY-MM-DD to Tripla YYYY/MM/DD
+      const checkin = checkinRaw.replace(/-/g, '/');
+      const checkout = checkoutRaw.replace(/-/g, '/');
+      
+      // Get JSON mapped room counts
+      const roomsParam = getTriplaRoomsParam(guestsRaw);
+
+      // Build URL with parameters
+      let triplaUrl = window.location.pathname + '?tripla_booking_widget_open=search';
+      
+      if (checkin && checkout) {
+        triplaUrl += `&checkin=${checkin}&checkout=${checkout}`;
+      }
+      
+      triplaUrl += `&rooms=${roomsParam}`;
+      
+      if (couponRaw) {
+        triplaUrl += `&coupon_code=${encodeURIComponent(couponRaw)}`;
+      }
+
+      // Trigger Tripla by rewriting URL (Tripla SDK auto-catches this)
+      window.location.href = triplaUrl;
+    }
+
+    // ROOM CARD SELECT DATES HANDLER (DEEP LINKING)
+    function openTriplaRoom(roomCode) {
+      // Pick up values if guest already filled them in the top bar
+      const checkinRaw = document.getElementById('preview-checkin').value;
+      const checkoutRaw = document.getElementById('preview-checkout').value;
+      const guestsRaw = document.getElementById('preview-guests').value;
+      const couponRaw = document.getElementById('preview-coupon').value.trim();
+
+      let triplaUrl = window.location.pathname + `?tripla_booking_widget_open=search&room_type_code=${roomCode}`;
+      
+      if (checkinRaw && checkoutRaw) {
+         triplaUrl += `&checkin=${checkinRaw.replace(/-/g, '/')}&checkout=${checkoutRaw.replace(/-/g, '/')}`;
+      }
+      
+      if (couponRaw) {
+        triplaUrl += `&coupon_code=${encodeURIComponent(couponRaw)}`;
+      }
+
+      // Add rooms parameter based on top bar selection, or fallback to default
+      triplaUrl += `&rooms=${getTriplaRoomsParam(guestsRaw)}`;
+
+      // Trigger Tripla
+      window.location.href = triplaUrl;
+    }
+
+    // AUTO-FILL UI FROM URL PARAMS (So if page reloads with Tripla open, UI matches)
+    window.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(window.location.search);
+      if (params.has('coupon_code')) {
+          document.getElementById('preview-coupon').value = params.get('coupon_code');
+      }
+      if (params.has('checkin')) {
+          document.getElementById('preview-checkin').value = params.get('checkin').replace(/\//g, '-');
+      }
+      if (params.has('checkout')) {
+          document.getElementById('preview-checkout').value = params.get('checkout').replace(/\//g, '-');
+      }
+    });
   </script>
-
-  <!-- ===================================================================== -->
-  <!-- [INJECTION ZONE 3 - OPTIONAL] FOOTER SCRIPTS FOR BOOKING ENGINE       -->
-  <!-- Paste any vendor initialization <script> tags below this line         -->
-  <!-- ===================================================================== -->
-
-  <!-- ===================================================================== -->
 </body>
 </html>
